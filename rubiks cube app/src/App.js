@@ -19,7 +19,7 @@ const RubiksCube = () => {
   return (
     <Canvas>
       <ambientLight />
-      {/* <OrbitControls enableZoom={false} /> */}
+      <OrbitControls enableZoom={false} />
       <Suspense fallback={null}>
         <group position={[0, 0, 0]} rotation={rotationSubset1}>
           <RubiksCubeModel
@@ -44,6 +44,8 @@ const RubiksCube = () => {
 const RubiksCubeModel = ({ nodesSubset, rotation, setRotation }) => {
   const cubeRefs = useRef([]);
   const startYRef = useRef(null);
+  const [isDraggingUp, setDraggingUp] = useState(false);
+  const [isDraggingDown, setDraggingDown] = useState(false);
 
   const handlePointerDown = (event) => {
       console.log("down");
@@ -88,24 +90,48 @@ const RubiksCubeModel = ({ nodesSubset, rotation, setRotation }) => {
   };
 
   const DraggingDown = async () => {
-    cubeRefs.current.forEach(async (cubeRef, index) => {
-      while (Math.abs(cubeRef.current.rotation.z - targetRot) >= 0.001) {
-        cubeRef.current.rotation.z += Math.PI / 50;
-        await new Promise((resolve) => requestAnimationFrame(resolve));
-        await new Promise((resolve) => setTimeout(resolve, 1));
-      }
-    });
+    setDraggingDown(true);
+      console.log("ok");
   };
 
   const DraggingUp = async () => {
-    cubeRefs.current.forEach(async (cubeRef, index) => {
-      while (Math.abs(cubeRef.current.rotation.z - targetRot) >= 0.001) {
-        cubeRef.current.rotation.z -= Math.PI / 50;
-        await new Promise((resolve) => requestAnimationFrame(resolve));
-        await new Promise((resolve) => setTimeout(resolve, 1));
-      }
-    });
+      cubeRefs.current.forEach(async (cubeRef, index) => {
+        while (Math.abs(cubeRef.current.rotation.z - targetRot) >= 0.001) {
+          cubeRef.current.rotation.z -= Math.PI / 30;
+          await new Promise((resolve) => requestAnimationFrame(resolve));
+          await new Promise((resolve) => setTimeout(resolve, 1));
+        }
+      });
+    
   };
+
+
+
+  // useFrame(() => {
+  //   if (isDragging ) {
+  //     console.log(rot<Math.PI/2);
+  //     cubeRefs.current.forEach((cubeRef, index) => {
+  //       cubeRef.current.rotation.z += 0.01;
+  //       rot=cubeRef.current.rotation.z+0.001;
+  //       if (rot %( Math.PI / 2)<=0.01) {
+  //         setDragging(false);
+  //       }
+  //     });
+  //   }
+  // });
+
+
+  useFrame(() => {
+    if (isDraggingDown ) {
+      cubeRefs.current.forEach(async (cubeRef, index) => {
+        while (Math.abs(cubeRef.current.rotation.z - targetRot) >= 0.001) {
+          cubeRef.current.rotation.z += Math.PI / 60;
+          await new Promise((resolve) => requestAnimationFrame(resolve));
+          await new Promise((resolve) => setTimeout(resolve, 1));
+        }
+      });
+    }
+  });
 
   return (
     <group scale={[0.3, 0.3, 0.3]} onPointerDown={handlePointerDown}>
