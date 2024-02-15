@@ -35,23 +35,56 @@ const RubiksCube = () => {
 
 const RubiksCubeModel = ({ nodesSubset,rotation, setRotation }) => {
   const cubeRefs = useRef([]);
-  const [isDragging, setDragging] = useState(false);
- let rot=0;
+  const [isDraggingUp, setDraggingUp] = useState(false);
+  const [isDraggingDown, setDraggingDown] = useState(false);
+  const startYRef = useRef(null);
+  let rot=0;
 
   const handlePointerDown = (event) => {
-    console.log(Math.PI/2);
+    startYRef.current = event.clientY;
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
     event.stopPropagation();
-    setDragging(true);    
+  };
+
+  const handlePointerMove = (event) => {
+    const startY = startYRef.current;
+    if (startY !== null) {
+      const deltaY = event.clientY - startY;
+      if (deltaY > 0) {
+        setDraggingDown(true); 
+      } else if (deltaY < 0) {
+        setDraggingUp(true); 
+      }
+    }
+  };
+
+  const handlePointerUp = () => {
+    window.removeEventListener('pointermove', handlePointerMove);
+    window.removeEventListener('pointerup', handlePointerUp);
   };
 
   useFrame(() => {
-    if (isDragging ) {
-      console.log(rot<Math.PI/2);
+    if (isDraggingDown ) {
       cubeRefs.current.forEach((cubeRef, index) => {
         cubeRef.current.rotation.z += 0.01;
         rot=cubeRef.current.rotation.z+0.001;
-        if (rot %( Math.PI / 2)<=0.01) {
-          setDragging(false);
+        let a=Math.abs(rot %( Math.PI / 2));
+        if (a<=0.01) {
+          setDraggingDown(false);
+          rot=0;
+        }
+      });
+    }
+
+    if (isDraggingUp ) {
+      cubeRefs.current.forEach((cubeRef, index) => {
+        cubeRef.current.rotation.z -= 0.01;
+        rot=cubeRef.current.rotation.z+0.001;
+        let a=Math.abs(rot %( Math.PI / 2));
+        if (a<=0.01) {
+          setDraggingUp(false);
+          rot=0;
         }
       });
     }
