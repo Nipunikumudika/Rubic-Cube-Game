@@ -1,102 +1,72 @@
-import React, { useRef,useState } from "react";
+import React, { useEffect,useRef } from "react";
 import { OrbitControls } from "@react-three/drei";
-import { useFrame,useThree } from "react-three-fiber";
-import { Vector2, Raycaster } from "three";
-import * as THREE from 'three';
+import { useFrame } from "react-three-fiber";
 
-const RubiksCubeModel = ({ nodesSubset, drag, onDragChange }) => {
+// ... (your imports)
+
+const RubiksCubeModel = ({ index, nodesSubset, drag, onDragChange, mouseDownPlane, mouseUpPlane, mouseDownCube, mouseUpCube, set,rotation}) => {
   const cubeRefs = useRef([]);
   const orbitRef = useRef();
-  const startYRef = useRef(0);
   const initialRotation = [Math.PI / 6, Math.PI / 4, 0];
   const groupRef = useRef();
-  const [mouse, setMouse] = useState(new THREE.Vector2());
-  const [startY, setStartY] = useState(null);
-  const { camera } = useThree();
+  let rotationindex;
 
-  // Raycaster for intersection testing
-  const raycaster = new THREE.Raycaster();
-
-let x,y,z;
+  let checkup;
   const handlePointerDown = (event) => {
-   x= orbitRef.current.object.position.x
-   y= orbitRef.current.object.position.y
-   z= orbitRef.current.object.position.z
-console.log(z);
-  setStartY(event.clientY);
-
-// console.log(y);
-    // mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    startYRef.current = event.clientY;
+    const clickedPlane = groupRef.current.children[0].children.find((child) => child === event.object);
+    if (clickedPlane) {
+      mouseDownPlane(clickedPlane.name);
+      mouseDownCube(index);
+    }
+    checkup = 1;
     onDragChange(false);
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    window.addEventListener("pointerup", handlePointerUp, { passive: true });
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
     event.stopPropagation();
   };
 
-  let deltaY;
+  const handlePointerMove = (event) => {};
+  useEffect(() => {
+    rotationindex = set;
+    DraggingDown(rotationindex);
+  }, [set]);
 
-  const handlePointerMove = (event) => {
-
-    const startY = startYRef.current;
-    // console.log(startY );
-    if (startY !== null) {
-      const endY = event.clientY
-      console.log(z );
-      // console.log(y);
-      if(z>-0.03){
-        console.log("okokokokoko");
-        deltaY = endY - startY;
-      }else{
-        console.log("nononooonoo");
-        deltaY = startY - endY;
+  const handlePointerUp = async (event) => {
+    if (checkup == null) {
+      const clickedPlane = groupRef.current.children[0].children.find((child) => child === event.object);
+      if (clickedPlane) {
+        mouseUpPlane(clickedPlane.name);
+        mouseUpCube(index);
+        DraggingDown(set);
       }
-      // deltaY = endY - startY;
-    }
-  };
-
-  let targetRot = 0;
-
-  const handlePointerUp = async () => {
-    window.removeEventListener("pointermove", handlePointerMove);
-    window.removeEventListener("pointerup", handlePointerUp);
-    if (deltaY > 0) {
-      cubeRefs.current.forEach((cubeRef) => {
-        targetRot = cubeRef.current.rotation.z + Math.PI / 2;
-      });
-      DraggingDown();
-      deltaY = 0;
-    } else if (deltaY < 0) {
-      cubeRefs.current.forEach((cubeRef) => {
-        targetRot = cubeRef.current.rotation.z - Math.PI / 2;
-      });
-      DraggingUp();
-      deltaY = 0;
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+      event.stopPropagation();
     }
     onDragChange(true);
   };
+let targetRot;
+  const DraggingDown = async (cubeIndices) => {
+    if (cubeIndices != null) {
+      if (cubeIndices.includes(index)) {
+        targetRot = groupRef.current.children[0].rotation.x + (Math.PI / 2);
+          console.log(groupRef.current.children[0].rotation.x);
+       Down();
+      }
+    }
+  };
 
-  const DraggingDown = async () => {
-    cubeRefs.current.forEach(async (cubeRef) => {
-      while (Math.abs(cubeRef.current.rotation.z - targetRot) >= 0.001) {
-        cubeRef.current.rotation.z += Math.PI / 10;
+
+  const Down = async () => {
+      while (Math.abs(groupRef.current.children[0].rotation.x - targetRot) >= 0.001) {
+        groupRef.current.children[0].rotation.x += Math.PI / 30;
         await new Promise((resolve) => requestAnimationFrame(resolve));
         await new Promise((resolve) => setTimeout(resolve, 1));
       }
-    });
-    onDragChange(true);
+ 
   };
 
-  const DraggingUp = async () => {
-    cubeRefs.current.forEach(async (cubeRef) => {
-      while (Math.abs(cubeRef.current.rotation.z - targetRot) >= 0.001) {
-        cubeRef.current.rotation.z -= Math.PI / 10;
-        await new Promise((resolve) => requestAnimationFrame(resolve));
-        await new Promise((resolve) => setTimeout(resolve, 1));
-      }
-    });
-    onDragChange(true);
-  };
+
 
   useFrame(() => {
     orbitRef.current.enabled = drag;
@@ -105,23 +75,27 @@ console.log(z);
 
   return (
     <>
-      <group classname="group"
+      <group
+        className="group"
         ref={groupRef}
         scale={[0.3, 0.3, 0.3]}
         rotation={initialRotation}
         onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
       >
-        {nodesSubset.map((node, index) => (
+        {nodesSubset.map((node, nodeIndex) => (
           <primitive
-            key={index}
+            key={nodeIndex}
             object={node}
-            ref={(ref) => (cubeRefs.current[index] = { current: ref })}
+            ref={(ref) => (cubeRefs.current[nodeIndex] = ref)} // Assign ref directly, not inside an object
           />
         ))}
       </group>
-      <OrbitControls ref={orbitRef}  />
+      <group></group>
+      <OrbitControls ref={orbitRef} enableZoom={false} />
     </>
   );
 };
 
 export default RubiksCubeModel;
+

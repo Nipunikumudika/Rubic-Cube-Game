@@ -4,30 +4,49 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader";
 import RubiksCubeModel from "./RubiksCubeModel";
 import "./App.css";
 import { useLoader } from "react-three-fiber";
+import { useMouseHandlers } from "./mouseEventHandlers";
 
 const RubiksCube = () => {
   const { scene } = useLoader(GLTFLoader, "/rubikcube.gltf");
   const [drag, setDrag] = useState(true);
+  const { handleMouseDown, handleMouseUp,handleMouseDownCube,handleMouseUpCube,set } = useMouseHandlers();
+  const generateNodesSubset = useMemo(() => {
+    const subsets = [];
 
-  const nodesSubset1 = useMemo(() => scene.children.slice(0, 9), [scene]);
-  const nodesSubset2 = useMemo(() => scene.children.slice(9, 18), [scene]);
-  const nodesSubset3 = useMemo(() => scene.children.slice(18, 27), [scene]);
+
+    for (let i = 0; i <= 26; i++) {
+      subsets.push(scene.children.slice(i, i + 1));
+    }
+    return subsets;
+  }, [scene]);
 
   const handleDragChange = (newDrag) => {
     setDrag(newDrag);
   };
 
+
+
   return (
     <Canvas>
       <ambientLight />
       <Suspense fallback={null}>
-        <RubiksCubeModel nodesSubset={nodesSubset1} drag={drag} onDragChange={handleDragChange} />
-        <RubiksCubeModel nodesSubset={nodesSubset2} drag={drag} onDragChange={handleDragChange} />
-        <RubiksCubeModel nodesSubset={nodesSubset3} drag={drag} onDragChange={handleDragChange} />
+        {generateNodesSubset.map((nodesSubset, index) => (
+          <RubiksCubeModel
+            index={index}
+            key={index}
+            nodesSubset={nodesSubset}
+            drag={drag}
+            onDragChange={handleDragChange}
+            mouseDownPlane={handleMouseDown}
+            mouseUpPlane={handleMouseUp}
+            mouseDownCube={handleMouseDownCube}
+            mouseUpCube={handleMouseUpCube}
+            set={set}
+          />
+        ))}
       </Suspense>
       <pointLight position={[10, 10, 10]} />
     </Canvas>
   );
 };
-
 export default RubiksCube;
