@@ -1,7 +1,7 @@
 // mouseEventHandlers.js
 import {  useState } from "react";
 const set1=[1,4,7,10,13,16,30,33,36,39,42,45];
-const set2=[2,5,8,,11,14,17,29,32,35,38,41,44];
+const set2=[2,5,8,11,14,17,29,32,35,38,41,44];
 const set3=[3,6,9,12,15,18,28,31,34,37,41,43];
 const set4=[1,2,3,48,51,54,34,35,36,19,22,25];
 const set5=[4,5,6,47,50,53,31,32,33,20,23,26];
@@ -14,10 +14,10 @@ const set9=[16,17,18,52,53,54,37,38,39,19,20,21];
 const cubeset1=[24,15,6,3,0,9,18,21,12];
 const cubeset2=[25,16,7,4,1,10,19,22,13];
 const cubeset3=[26,17,8,5,2,11,20,23,14];
-const cubeset4=[24,25,26,23,20,19,18,21,22];
-const cubeset5=[15,16,17,14,11,10,9,12,13];
-const cubeset6=[6,7,8,5,2,1,0,3,4];
-const cubeset7=[6,7,8,17,26,25,24,15,11];
+const cubeset4=[24,25,26,23,20,19,18,21,22];//
+const cubeset5=[15,16,17,14,11,10,9,12,13];//
+const cubeset6=[6,7,8,5,2,1,0,3,4];//
+const cubeset7=[6,7,8,17,26,25,24,15,16];
 const cubeset8=[3,4,5,14,23,22,21,12,13];
 const cubeset9=[0,1,2,11,20,19,18,9,10];
 
@@ -63,20 +63,14 @@ const rubiksCubeMatrixWithIdentifiers = [
     ],
 ];
 
-const rotateSet = (setIndex) => {
-    const rotatedSet = rubiksCubeMatrixWithIdentifiers[setIndex].map((column) => {
-      return column.map(([number, name]) => [number + 9, name]);
-    });
-// console.log(rotatedSet);
-    rubiksCubeMatrixWithIdentifiers[setIndex] = rotatedSet;
-  };
 
 
 export const useMouseHandlers = () => {
   const [downnew, setDownNew] = useState(null);
   const [downnewCube, setDownNewCube] = useState(null);
   const [setrot, setSetrot] = useState(null); 
-
+  const [xyzdirection, setxyzdirection] = useState(null); 
+  const [direction, setdirection] = useState(null); 
   const handleMouseDown = (down) => {
     setDownNew(down);
   };
@@ -86,8 +80,6 @@ export const useMouseHandlers = () => {
   };
 
   const handleMouseUpCube = (up) => {
-    // console.log(downnewCube);
-    // console.log(up);
   };
 
 
@@ -97,6 +89,7 @@ export const useMouseHandlers = () => {
 let first,end;
     if (downnew) {
         const nameToSearchDown = downnew;
+        console.log(nameToSearchDown);
         const nameToSearchUp = up;
         for (let i = 0; i < rubiksCubeMatrixWithIdentifiers.length; i++) {
           for (let j = 0; j < rubiksCubeMatrixWithIdentifiers[i].length; j++) {
@@ -108,68 +101,64 @@ let first,end;
               }
               if (name === nameToSearchUp) {
                 console.log(`Found corresponding number Up: ${plane} ${cube}`);
-                // rotateSet(i);
-                let end = plane;
-                const isInSet = (set) => set.includes(first) && set.includes(end);
-
+                end = plane;
+                
+              }
+              const isInSet = (set) => set.includes(first) && set.includes(end);
                 if (isInSet(set1)) {
-                    console.log("Both first and end are present in set1");
-                    //1
+                    // console.log("Both first and end are present in set1");
                     set=cubeset1;
-                    // return
+                    setxyzdirection("x");
                   } else if (isInSet(set2)) {
-                    console.log("Both first and end are present in set2");
-                    //2
+                    // console.log("Both first and end are present in set2");
                     set=cubeset2;
-                    // return;
+                    setxyzdirection("x");
                   } else if (isInSet(set3)) {
-                    console.log("Both first and end are present in set3");
-                    //3
+                    // console.log("Both first and end are present in set3");
                     set=cubeset3;
-                    // return;
+                    setxyzdirection("x");
                   } else if (isInSet(set4)) {
-                    console.log("Both first and end are present in set4");
-                    //4
+                    // console.log("Both first and end are present in set4");
                     set=cubeset4;
-                    // return;
+                    setxyzdirection("z");
                   } else if (isInSet(set5)) {
-                    console.log("Both first and end are present in set5");
-                    //5
+                    // console.log("Both first and end are present in set5");
                     set=cubeset5;
-                    // return;
+                    setxyzdirection("z");
                   } else if (isInSet(set6)) {
-                    console.log("Both first and end are present in set6");
-                    //6
+                    // console.log("Both first and end are present in set6");
                     set=cubeset6;
-                    // return;
+                    setxyzdirection("z");
                   } else if (isInSet(set7)) {
-                    console.log("Both first and end are present in set7");
-                    //7
+                    // console.log("Both first and end are present in set7");
                     set=cubeset7;
-                    // return;
+                    setxyzdirection("y");
                   } else if (isInSet(set8)) {
-                    console.log("Both first and end are present in set8");
-                    //8
+                    // console.log("Both first and end are present in set8");
                     set=cubeset8;
-                    // return;
+                    setxyzdirection("y");
                   } else if (isInSet(set9)) {
-                    console.log("Both first and end are present in set9");
-                    //9
+                    // console.log("Both first and end are present in set9");
                     set=cubeset9;
-                    // return;
+                    setxyzdirection("y");
                   } else {
-                    console.log("First and/or end are not present in any set");
+                    // console.log("First and/or end are not present in any set");
                   }
 
                   setSetrot(set);
-                if(end>first){
-                    console.log("clockwise");
-                    // console.log(set);
-                }else{
-                    console.log("anti-clockwise")
-                    // console.log(set);
-                }
-              }
+                  if(set===cubeset1||set===cubeset2||set===cubeset3||set===cubeset7||set===cubeset8||set===cubeset9){
+                    if(end>first){
+                      setdirection("c");
+                  }else if(end<first){
+                      setdirection("a");
+                  }
+                  }else if(set===cubeset4||set===cubeset5||set===cubeset6){
+                    if(end<first){
+                      setdirection("c");
+                  }else if(end>first){
+                      setdirection("a");
+                  }
+                  }
             }
           }
         }
@@ -177,6 +166,6 @@ let first,end;
 
 
   };
-// console.log(setrot);
-  return { handleMouseDown, handleMouseUp,handleMouseDownCube,handleMouseUpCube, set: setrot };
+console.log(setrot);
+  return { handleMouseDown, handleMouseUp,handleMouseDownCube,handleMouseUpCube, set: setrot ,xyzdirection:xyzdirection,direction:direction};
 };

@@ -9,7 +9,7 @@ import { useMouseHandlers } from "./mouseEventHandlers";
 const RubiksCube = () => {
   const { scene } = useLoader(GLTFLoader, "/rubikcube.gltf");
   const [drag, setDrag] = useState(true);
-  const { handleMouseDown, handleMouseUp,handleMouseDownCube,handleMouseUpCube,set } = useMouseHandlers();
+  const { handleMouseDown, handleMouseUp,handleMouseDownCube,handleMouseUpCube,set,xyzdirection,direction } = useMouseHandlers();
   const generateNodesSubset = useMemo(() => {
     const subsets = [];
 
@@ -42,6 +42,8 @@ const RubiksCube = () => {
             mouseDownCube={handleMouseDownCube}
             mouseUpCube={handleMouseUpCube}
             set={set}
+            xyzdirection={xyzdirection}
+            direction={direction}
           />
         ))}
       </Suspense>
