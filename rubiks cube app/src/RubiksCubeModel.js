@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { OrbitControls } from "@react-three/drei";
 import { useFrame } from "react-three-fiber";
-
-// ... (your imports)
+import * as THREE from 'three';
 
 const RubiksCubeModel = ({
   index,
@@ -12,14 +11,13 @@ const RubiksCubeModel = ({
   mouseDownPlane,
   mouseUpPlane,
   mouseDownCube,
-  mouseUpCube,
   set,
   xyzdirection,
   direction,
 }) => {
   const cubeRefs = useRef([]);
   const orbitRef = useRef();
-  const initialRotation = [Math.PI / 6, Math.PI / 4, 0];
+  const initialRotation = [Math.PI / 6, Math.PI/4, 0];
   const groupRef = useRef();
   let rotationindex;
 
@@ -34,15 +32,13 @@ const RubiksCubeModel = ({
     }
     checkup = 1;
     onDragChange(false);
-    window.addEventListener("pointermove", handlePointerMove);
     window.addEventListener("pointerup", handlePointerUp);
     event.stopPropagation();
   };
 
-  const handlePointerMove = (event) => {};
   useEffect(() => {
     rotationindex = set;
-    DraggingDown(rotationindex);
+    Dragging(rotationindex);
   }, [set]);
 
   const handlePointerUp = async (event) => {
@@ -52,99 +48,86 @@ const RubiksCubeModel = ({
       );
       if (clickedPlane) {
         mouseUpPlane(clickedPlane.name);
-        mouseUpCube(index);
-        DraggingDown(set);
-        console.log(direction);
       }
-      window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerup", handlePointerUp);
       event.stopPropagation();
     }
     onDragChange(true);
   };
+
   let targetRot;
-  const DraggingDown = async (cubeIndices) => {
+  const Dragging = async (cubeIndices) => {
     if (cubeIndices != null) {
       if (cubeIndices.includes(index)) {
-        if (direction == "a") {
-          if (xyzdirection == "x") {
-            targetRot = groupRef.current.children[0].rotation.x - Math.PI / 2;
-          } else if (xyzdirection == "y") {
+        if (direction === "a") {
+          if (xyzdirection === "x") {
+            targetRot = groupRef.current.children[0].rotation.x - Math.PI / 2;           
+          } else if (xyzdirection === "y") {
             targetRot = groupRef.current.children[0].rotation.y - Math.PI / 2;
-          } else if (xyzdirection == "z") {
+          } else if (xyzdirection === "z") {
             targetRot = groupRef.current.children[0].rotation.z - Math.PI / 2;
           }
+          console.log("up");
           Up();
-        } else if(direction == "c"){
-          if (xyzdirection == "x") {
+          
+        } else if(direction === "c"){
+          if (xyzdirection === "x") {
             targetRot = groupRef.current.children[0].rotation.x + Math.PI / 2;
-          } else if (xyzdirection == "y") {
+          } else if (xyzdirection === "y") {
             targetRot = groupRef.current.children[0].rotation.y + Math.PI / 2;
-          } else if (xyzdirection == "z") {
+          } else if (xyzdirection === "z") {
             targetRot = groupRef.current.children[0].rotation.z + Math.PI / 2;
           }
-
           Down();
+          console.log("down");
+          // console.log(groupRef.current.children[0].rotation);
         }
       }
     }
   };
 
   const Down = async () => {
-    if (xyzdirection == "x") {
-      while (
-        Math.abs(groupRef.current.children[0].rotation.x - targetRot) >= 0.001
-      ) {
-        groupRef.current.children[0].rotation.x += Math.PI / 30;
-        await new Promise((resolve) => requestAnimationFrame(resolve));
-        await new Promise((resolve) => setTimeout(resolve, 1));
-      }
-    } else if (xyzdirection == "y") {
-      while (
-        Math.abs(groupRef.current.children[0].rotation.y - targetRot) >= 0.001
-      ) {
-        groupRef.current.children[0].rotation.y += Math.PI / 30;
-        await new Promise((resolve) => requestAnimationFrame(resolve));
-        await new Promise((resolve) => setTimeout(resolve, 1));
-      }
-    } else if (xyzdirection == "z") {
-      while (
-        Math.abs(groupRef.current.children[0].rotation.z - targetRot) >= 0.001
-      ) {
-        groupRef.current.children[0].rotation.z += Math.PI / 30;
-        await new Promise((resolve) => requestAnimationFrame(resolve));
-        await new Promise((resolve) => setTimeout(resolve, 1));
-      }
+    if (xyzdirection === "x") {
+      const rotationAxis = new THREE.Vector3(1,0, 0);
+      await rotateOnAxis(rotationAxis, +Math.PI / 2);
+      console.log("x+");
+    } else if (xyzdirection === "y") {
+      const rotationAxis = new THREE.Vector3(0, 1, 0);
+      await rotateOnAxis(rotationAxis, +Math.PI / 2);
+      console.log("y+");
+    } else if (xyzdirection === "z") {
+      const rotationAxis = new THREE.Vector3(0,0,1); 
+      await rotateOnAxis(rotationAxis, +Math.PI / 2);
+      console.log("z+");
     }
   };
-
+  
   const Up = async () => {
-    if (xyzdirection == "x") {
-      while (
-        Math.abs(groupRef.current.children[0].rotation.x - targetRot) >= 0.001
-      ) {
-        groupRef.current.children[0].rotation.x -= Math.PI / 30;
-        await new Promise((resolve) => requestAnimationFrame(resolve));
-        await new Promise((resolve) => setTimeout(resolve, 1));
-      }
-    } else if (xyzdirection == "y") {
-      while (
-        Math.abs(groupRef.current.children[0].rotation.y - targetRot) >= 0.001
-      ) {
-        groupRef.current.children[0].rotation.y -= Math.PI / 30;
-        await new Promise((resolve) => requestAnimationFrame(resolve));
-        await new Promise((resolve) => setTimeout(resolve, 1));
-      }
-    } else if (xyzdirection == "z") {
-      while (
-        Math.abs(groupRef.current.children[0].rotation.z - targetRot) >= 0.001
-      ) {
-        groupRef.current.children[0].rotation.z -= Math.PI / 30;
-        await new Promise((resolve) => requestAnimationFrame(resolve));
-        await new Promise((resolve) => setTimeout(resolve, 1));
-      }
+    if (xyzdirection === "x") {
+      const rotationAxis = new THREE.Vector3(1,0, 0); 
+      await rotateOnAxis(rotationAxis, -Math.PI / 2);
+      console.log("x-");
+    } else if (xyzdirection === "y") {
+      const rotationAxis = new THREE.Vector3(0, 1, 0);
+      await rotateOnAxis(rotationAxis, -Math.PI / 2);
+      console.log("y-");
+    } else if (xyzdirection === "z") {
+      const rotationAxis = new THREE.Vector3(0,0,1); 
+      await rotateOnAxis(rotationAxis, -Math.PI / 2);
+      console.log("z-");
     }
   };
+  
+  const rotateOnAxis = async (axis, angle) => {  
+    for (let i = 0; i < 15; i++) {
+      groupRef.current.children[0].rotateOnWorldAxis(axis, angle / 15);
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      await new Promise((resolve) => setTimeout(resolve, 1));
+    }
+  };
+  
+
+
 
   useFrame(() => {
     orbitRef.current.enabled = drag;
@@ -165,12 +148,13 @@ const RubiksCubeModel = ({
           <primitive
             key={nodeIndex}
             object={node}
-            ref={(ref) => (cubeRefs.current[nodeIndex] = ref)} // Assign ref directly, not inside an object
+            ref={(ref) => (cubeRefs.current[nodeIndex] = ref)} 
           />
         ))}
       </group>
       <group></group>
-      <OrbitControls ref={orbitRef} enableZoom={false} />
+      <OrbitControls ref={orbitRef} enableZoom={false} rotateSpeed={0.05} />
+      {/* <axesHelper args={[5]} /> */}
     </>
   );
 };
