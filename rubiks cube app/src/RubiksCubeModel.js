@@ -67,6 +67,7 @@ const RubiksCubeModel = ({
           } else if (xyzdirection === "z") {
             targetRot = groupRef.current.children[0].rotation.z - Math.PI / 2;
           }
+          console.log("up");
           Up();
           
         } else if(direction === "c"){
@@ -79,7 +80,7 @@ const RubiksCubeModel = ({
           }
           Down();
           console.log("down");
-          console.log(groupRef.current.children[0].rotation);
+          // console.log(groupRef.current.children[0].rotation);
         }
       }
     }
@@ -93,7 +94,7 @@ const RubiksCubeModel = ({
     } else if (xyzdirection === "y") {
       const rotationAxis = new THREE.Vector3(0, 1, 0);
       await rotateOnAxis(rotationAxis, +Math.PI / 2);
-      console.log("y+");//ok
+      console.log("y+");
     } else if (xyzdirection === "z") {
       const rotationAxis = new THREE.Vector3(0,0,1); 
       await rotateOnAxis(rotationAxis, +Math.PI / 2);
@@ -109,7 +110,7 @@ const RubiksCubeModel = ({
     } else if (xyzdirection === "y") {
       const rotationAxis = new THREE.Vector3(0, 1, 0);
       await rotateOnAxis(rotationAxis, -Math.PI / 2);
-      console.log("y-");//ok
+      console.log("y-");
     } else if (xyzdirection === "z") {
       const rotationAxis = new THREE.Vector3(0,0,1); 
       await rotateOnAxis(rotationAxis, -Math.PI / 2);
@@ -123,9 +124,6 @@ const RubiksCubeModel = ({
       await new Promise((resolve) => requestAnimationFrame(resolve));
       await new Promise((resolve) => setTimeout(resolve, 1));
     }
-  
-    console.log("groupRef.current.rotation");
-    console.log(groupRef.current.rotation);
   };
   
 
@@ -155,8 +153,8 @@ const RubiksCubeModel = ({
         ))}
       </group>
       <group></group>
-      <OrbitControls ref={orbitRef} enableZoom={false} />
-      <axesHelper args={[5]} />
+      <OrbitControls ref={orbitRef} enableZoom={false} rotateSpeed={0.05} />
+      {/* <axesHelper args={[5]} /> */}
     </>
   );
 };
