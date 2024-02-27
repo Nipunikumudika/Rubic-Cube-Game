@@ -5,13 +5,17 @@ import RubiksCubeModel from "./RubiksCubeModel";
 import "./App.css";
 import { useLoader } from "react-three-fiber";
 import { useMouseHandlers } from "./mouseEventHandlers";
+import * as THREE from 'three';
+
 
 const RubiksCube = () => {
   const { scene } = useLoader(GLTFLoader, "/rubikcube.gltf");
   const [drag, setDrag] = useState(true);
-  const { handleMouseDown, handleMouseUp,handleMouseDownCube,handleMouseUpCube,set,xyzdirection,direction } = useMouseHandlers();
+
+  const { handleMouseDown, handleMouseUp,handleMouseDownCube,set,xyzdirection,direction } = useMouseHandlers();
   const generateNodesSubset = useMemo(() => {
     const subsets = [];
+    
 
 
     for (let i = 0; i <= 26; i++) {
@@ -40,7 +44,6 @@ const RubiksCube = () => {
             mouseDownPlane={handleMouseDown}
             mouseUpPlane={handleMouseUp}
             mouseDownCube={handleMouseDownCube}
-            mouseUpCube={handleMouseUpCube}
             set={set}
             xyzdirection={xyzdirection}
             direction={direction}
