@@ -674,18 +674,18 @@ let first,end,firstactual,endactual;
     console.log("9,a")
     //16,39,17,38,18,37,54,19,53,20,52,21
     const tempset=[setcubePlane[5],setcubePlane[9],setcubePlane[17],setcubePlane[21],setcubePlane[29],setcubePlane[33],setcubePlane[38],setcubePlane[39],setcubePlane[44],setcubePlane[45],setcubePlane[50],setcubePlane[51]];
-    setcubePlane[5]=tempset[10];
-    setcubePlane[9]=tempset[11];
-    setcubePlane[17]=tempset[9];
-    setcubePlane[21]=tempset[9];
-    setcubePlane[29]=tempset[6];
-    setcubePlane[33]=tempset[7];
-    setcubePlane[38]=tempset[1];
-    setcubePlane[39]=tempset[0];
-    setcubePlane[44]=tempset[3];
-    setcubePlane[45]=tempset[2];
-    setcubePlane[50]=tempset[5];
-    setcubePlane[51]=tempset[4];
+    setcubePlane[5]=tempset[10];//16
+    setcubePlane[9]=tempset[11];//39
+    setcubePlane[17]=tempset[8];//17
+    setcubePlane[21]=tempset[9];//38
+    setcubePlane[29]=tempset[6];//18
+    setcubePlane[33]=tempset[7];//37
+    setcubePlane[38]=tempset[1];//54
+    setcubePlane[39]=tempset[0];//19
+    setcubePlane[44]=tempset[3];//53
+    setcubePlane[45]=tempset[2];//20
+    setcubePlane[50]=tempset[5];//52
+    setcubePlane[51]=tempset[4];//21
 
     //30,33,36,29,35,28,31,34
     const tempset2=[setcubePlane[6],setcubePlane[7],setcubePlane[8],setcubePlane[18],setcubePlane[20],setcubePlane[30],setcubePlane[31],setcubePlane[32]];
