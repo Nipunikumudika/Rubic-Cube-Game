@@ -1,0 +1,31 @@
+import React, { Suspense } from 'react';
+import { Canvas } from 'react-three-fiber';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader';
+import { useLoader } from 'react-three-fiber';
+import { OrbitControls } from '@react-three/drei';
+import './App.css';
+const RubiksCube = () => {
+  return (
+    <Canvas>
+      <ambientLight />
+     <OrbitControls enableZoom={false}/>
+     <Suspense fallback={null} >
+     <RubiksCubeModel />
+     </Suspense>
+      <pointLight position={[10, 10, 10]} />
+     
+    </Canvas>
+  );
+};
+
+const RubiksCubeModel = () => {
+  const { scene } = useLoader(GLTFLoader, '/rubikcube.gltf');
+  console.log(scene.children[1]);
+  scene.scale.set(0.3, 0.3, 0.3); 
+  scene.rotation.set(Math.PI / 6, Math.PI / 4, 0);
+  // return <primitive object={scene} />;
+  const nodesSubset = [scene.children[0], scene.children[1], scene.children[2],scene.children[3],scene.children[4],scene.children[5],scene.children[6],scene.children[7],scene.children[8]];
+  return <group>{nodesSubset.map((node, index) => <primitive key={index} object={node} />)}</group>;
+};
+
+export default RubiksCube;

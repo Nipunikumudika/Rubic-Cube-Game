@@ -15,7 +15,7 @@ import {  useState } from "react";
 //             2,5,8,11,14,17,29,32,35,38,41,44,
 //             3,6,9,12,15,18,28,31,34,37,40,43,
 //             48,51,54,19,22,25,47,50,53,20,23,26,46,49,52,21,24,27];
-
+let finish=0;
 
 //plane no,cube no,colour
 
@@ -156,9 +156,12 @@ export const useMouseHandlers = () => {
   const [setrot, setSetrot] = useState(null); 
   const [xyzdirection, setxyzdirection] = useState(null); 
   const [direction, setdirection] = useState(null); 
+  let downnew2;
   const handleMouseDown = (down) => {
+    downnew2=down;
     setDownNew(down);
   };
+
 
   const Updateset=()=>{
     set1=orderIndices1.map(index => setcubePlane[index][0]);
@@ -222,18 +225,34 @@ export const useMouseHandlers = () => {
   ],
 ];
 
+
+
+let checkfinish=0;
+for (let i = 0; i < rubiksCubeMatrixWithIdentifiers.length; i++) {
+  for (let j = 0; j < rubiksCubeMatrixWithIdentifiers[i].length; j++) {
+    for (let k = 0; k < rubiksCubeMatrixWithIdentifiers[i][j].length; k++) {
+      const [cube,plane, name,newcube,newPlane,newname] = rubiksCubeMatrixWithIdentifiers[i][j][k];
+      if(name===newname){
+checkfinish++;
+      }
+    }
   }
-  const handleMouseDownCube = (down) => {
-    setDownNewCube(down);
-  };
-
-
-
-  const handleMouseUp = (up) => {
-
+}
+console.log(checkfinish);
+if (checkfinish===54){
+finish=1;
+}
+  }
+  const handleMouseUp = async (up) => {
 let first,end,firstactual,endactual;
-    if (downnew) {
-        const nameToSearchDown = downnew;
+let nameToSearchDown;
+    if (downnew || downnew2) {
+      if(downnew2){
+         nameToSearchDown = downnew2;
+      }else{
+        nameToSearchDown = downnew;
+      }
+        
         const nameToSearchUp = up;
         for (let i = 0; i < rubiksCubeMatrixWithIdentifiers.length; i++) {
           for (let j = 0; j < rubiksCubeMatrixWithIdentifiers[i].length; j++) {
@@ -702,5 +721,5 @@ let first,end,firstactual,endactual;
     change=0;
   }
 
-  return { handleMouseDown, handleMouseUp,handleMouseDownCube, set: setrot ,xyzdirection:xyzdirection,direction:direction};
+  return { handleMouseDown, handleMouseUp, set: setrot ,xyzdirection:xyzdirection,direction:direction,finish: finish};
 };
