@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { OrbitControls } from "@react-three/drei";
 import { useFrame } from "react-three-fiber";
 import * as THREE from "three";
 
 const RubiksCubeModel = ({
-  ref,
   index,
   nodesSubset,
   drag,
@@ -81,8 +80,12 @@ const RubiksCubeModel = ({
     [27, 6, "Cube006_3"],
   ];
 
+  const getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min) + min);
+  };
+
   const manuallyTriggerPointerEvents = async () => {
-    for (let i = 0; i <3; i++) {
+    for (let i = 0; i <50; i++) {
       const randomInteger1 = getRandomInt(0, 53);
       const randomInteger2 = getRandomInt(0, 53);
       mouseDownPlane(setcubePlane[randomInteger1][2]);
@@ -98,9 +101,6 @@ const RubiksCubeModel = ({
     manuallyTriggerPointerEventsRef.current = manuallyTriggerPointerEvents;
   }, [manuallyTriggerPointerEventsRef]);
 
-  const getRandomInt = (min, max) => {
-    return Math.floor(Math.random() * (max - min) + min);
-  };
 
   const handlePointerDown = (event) => {
     const clickedPlane = groupRef.current.children[0].children.find(
@@ -115,11 +115,6 @@ const RubiksCubeModel = ({
     event.stopPropagation();
   };
 
-  useEffect(() => {
-    rotationindex = set;
-    Dragging(rotationindex);
-  }, [set]);
-
   const handlePointerUp = async (event) => {
     if (checkup == null) {
       const clickedPlane = groupRef.current.children[0].children.find(
@@ -133,6 +128,11 @@ const RubiksCubeModel = ({
     }
     onDragChange(true);
   };
+
+  useEffect(() => {
+    rotationindex = set;
+    Dragging(rotationindex);
+  }, [set]);
 
   const Dragging = async (cubeIndices) => {
     if (cubeIndices != null) {

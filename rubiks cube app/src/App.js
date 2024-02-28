@@ -5,24 +5,22 @@ import RubiksCubeModel from "./RubiksCubeModel";
 import "./App.css";
 import { useLoader } from "react-three-fiber";
 import { useMouseHandlers } from "./mouseEventHandlers";
-import * as THREE from "three";
 
 const RubiksCube = () => {
   const { scene } = useLoader(GLTFLoader, "/rubikcube.gltf");
-  const [drag, setDrag] = useState(true);
-  const [buttonClicked, setButtonClicked] = useState(false);
   const manuallyTriggerPointerEventsRef = useRef();
   const [displayText, setDisplayText] = useState(
     "Wait... Please stay in this window"
   );
   const [timer, setTimer] = useState(0);
+  const [drag, setDrag] = useState(true);
+  const [buttonClicked, setButtonClicked] = useState(false);
   const [timerIntervalId, setTimerIntervalId] = useState(null);
   const [showDarkOverlay, setShowDarkOverlay] = useState(null);
   const [time, settime] = useState(null);
   const {
     handleMouseDown,
     handleMouseUp,
-    handleMouseDownCube,
     set,
     xyzdirection,
     direction,
@@ -53,7 +51,7 @@ const RubiksCube = () => {
       const elapsedSeconds = Math.floor((performance.now() - startTime) / 1000);
       setTimer(elapsedSeconds);
     }, 1000);
-    setTimerIntervalId(intervalId); 
+    setTimerIntervalId(intervalId);
   };
 
   useEffect(() => {
@@ -71,6 +69,7 @@ const RubiksCube = () => {
       finishNavigate();
     }
   }, [finish]);
+  
   const finishNavigate = async () => {
     clearInterval(timerIntervalId);
     settime(formatTime(timer));
@@ -130,14 +129,18 @@ const RubiksCube = () => {
           Start
         </button>
       )}
-      {buttonClicked && !showDarkOverlay && <p className="wait">{displayText}</p>}
+      {buttonClicked && !showDarkOverlay && (
+        <p className="wait">{displayText}</p>
+      )}
 
       {showDarkOverlay && (
         <div className="dark-overlay">
           <div>
             <p className="congrat">Congratulations!!!</p>
             <p className="time">Time You Take : {time}</p>
-            <button className="button" onClick={handleStartAgain}>Start Again</button>
+            <button className="button" onClick={handleStartAgain}>
+              Start Again
+            </button>
           </div>
         </div>
       )}

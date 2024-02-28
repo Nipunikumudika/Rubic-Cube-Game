@@ -1,20 +1,5 @@
 
 import {  useState } from "react";
-// const set1=[1,4,7,10,13,16,30,33,36,39,42,45];
-// const set2=[2,5,8,11,14,17,29,32,35,38,41,44];
-// const set3=[3,6,9,12,15,18,28,31,34,37,40,43];
-// const set4=[1,2,3,48,51,54,34,35,36,19,22,25];
-// const set5=[4,5,6,47,50,53,31,32,33,20,23,26];
-// const set6=[7,8,9,46,49,52,28,29,30,21,24,27];
-// const set7=[10,11,12,46,47,48,43,44,45,25,26,27];
-// const set8=[13,14,15,49,50,51,40,41,42,22,23,24];
-// const set9=[16,17,18,52,53,54,37,38,39,19,20,21];
-
-
-// let setcubePlane=[1,4,7,10,13,16,30,33,36,39,42,45,
-//             2,5,8,11,14,17,29,32,35,38,41,44,
-//             3,6,9,12,15,18,28,31,34,37,40,43,
-//             48,51,54,19,22,25,47,50,53,20,23,26,46,49,52,21,24,27];
 let finish=0;
 
 //plane no,cube no,colour
@@ -44,18 +29,6 @@ let set7=orderIndices7.map(index => setcubePlane[index][0]);
 let set8=orderIndices8.map(index => setcubePlane[index][0]);
 let set9=orderIndices9.map(index => setcubePlane[index][0]);
 
-
-// const cubeset1=[24,15,6,3,0,9,18,21,12];
-// const cubeset2=[25,16,7,4,1,10,19,22,13];
-// const cubeset3=[26,17,8,5,2,11,20,23,14];
-// const cubeset4=[24,25,26,23,20,19,18,21,22];
-// const cubeset5=[15,16,17,14,11,10,9,12,13];
-// const cubeset6=[6,7,8,5,2,1,0,3,4];
-// const cubeset7=[6,7,8,17,26,25,24,15,16];
-// const cubeset8=[3,4,5,14,23,22,21,12,13];
-// const cubeset9=[0,1,2,11,20,19,18,9,10];
-
-
 let cubeset1=[setcubePlane[0][1],setcubePlane[1][1],setcubePlane[2][1],setcubePlane[4][1],setcubePlane[5][1],setcubePlane[7][1],setcubePlane[8][1],setcubePlane[10][1],setcubePlane[46][1]];
 let cubeset2=[setcubePlane[12][1],setcubePlane[13][1],setcubePlane[14][1],setcubePlane[16][1],setcubePlane[17][1],setcubePlane[19][1],setcubePlane[20][1],setcubePlane[22][1],13];
 let cubeset3=[setcubePlane[24][1],setcubePlane[25][1],setcubePlane[26][1],setcubePlane[28][1],setcubePlane[29][1],setcubePlane[31][1],setcubePlane[33][1],setcubePlane[34][1],setcubePlane[43][1]];
@@ -67,47 +40,6 @@ let cubeset8=[setcubePlane[4][1],setcubePlane[16][1],setcubePlane[28][1],setcube
 let cubeset9=[setcubePlane[5][1],setcubePlane[17][1],setcubePlane[29][1],setcubePlane[44][1],setcubePlane[38][1],setcubePlane[21][1],setcubePlane[9][1],setcubePlane[45][1],setcubePlane[19][1]];
 
 let set,change=1;
-
-// const rubiksCubeMatrixWithIdentifiers = [
-//     //imitialcubeno,initialplaneno,initialPlanename,newcubeno,newcubeplane,newplanename
-//     // 1
-//     [
-//       [[24,1, "Cube024_3",24,1,"Cube024_3"], [25,2, "Cube025_3",25,2,"Cube025_3"], [26,3, "Cube026_3",26,3, "Cube026_3"]],
-//       [[15,4, "Cube015_2",15,15, "Cube015_2"], [16,5, "Cube016_2",16,5,"Cube016_2"], [17,6, "Cube017_2",17,6,"Cube017_2"]],
-//       [[6,7, "Cube006_2",6,7,"Cube006_2"], [7,8, "Cube007_2",7,8, "Cube007_2"], [8,9, "Cube008_2",8,9,"Cube008_2"]],
-//     ],
-//     // 2
-//     [
-//       [[6,10, "Cube006_4",6,10, "Cube006_4"], [7,11, "Cube007_3",7,11,"Cube007_3"], [8,12, "Cube008_4",8,12, "Cube008_4"]],
-//       [[3,13, "Cube003_3",3,13, "Cube003_3"], [4,14, "Cube004_2",4,14,"Cube004_2"], [5,15, "Cube005_3",5,15,"Cube005_3"]],
-//       [[0,16, "Cube000_3",0,16,"Cube000_3"], [1,17, "Cube001_3",1,17,"Cube001_3"], [2,18, "Cube002_4",2,18,"Cube002_4"]],
-//     ],
-//     // 3
-//     [
-//       [[24,25, "Cube024_4",24,25, "Cube024_4"], [15,26, "Cube015_3",15,26,"Cube015_3"], [6,27, "Cube006_3",6,27,"Cube006_3"]],
-//       [[21,22, "Cube021_3",21,22,"Cube021_3"], [12,23, "Cube012_2",12,23,"Cube012_2"], [3,24, "Cube003_2",5,24,"Cube003_2"]],
-//       [[18,19, "Cube018_4",18,19, "Cube018_4"], [9,20, "Cube009_3",9,20,"Cube009_3"], [0,21, "Cube000_2",0,21,"Cube000_2"]],
-//     ],
-//     // 4
-//     [
-//       [[0,30, "Cube000_1",0,30,"Cube000_1"], [1,29, "Cube001_2",1,29,"Cube001_2"], [2,28, "Cube002_3",2,28, "Cube002_3"]],
-//       [[9,33, "Cube009_2",9,33, "Cube009_2"], [10,32, "Cube010_2",10,32, "Cube010_2"], [11,31, "Cube011_3",11,31, "Cube011_3"]],
-//       [[18,36, "Cube018_3",18,36,"Cube018_3"], [19,35, "Cube019_3",19,35, "Cube019_3"], [20,34, "Cube020_4",20,34,"Cube020_4"]],
-//     ],
-//     // 5
-//     [
-//       [[26,43, "Cube026_2",26,43, "Cube026_2"], [25,44, "Cube025_2",25,44,"Cube025_2"], [24,45, "Cube024_2",24,45,"Cube024_2"]],
-//       [[23,40, "Cube023_2",23,40, "Cube023_2"], [22,41, "Cube022_2",22,41, "Cube022_2"], [21,42, "Cube021_2",21,42,"Cube021_2"]],
-//       [[20,37, "Cube020_2",20,37, "Cube020_2"], [19,38, "Cube019_2",19,38, "Cube019_2"], [18,39, "Cube018_2",18,39,"Cube018_2"]],
-//     ],
-//     // 6
-//     [
-//       [[8,46, "Cube008_3",8,46, "Cube008_3"], [17,47, "Cube017_3",17,47, "Cube017_3"], [26,48, "Cube026_4",26,48,"Cube026_4"]],
-//       [[5,49, "Cube005_2",5,49, "Cube005_2"], [14,50, "Cube014_2",14,50,"Cube014_2"], [23,51, "Cube023_3",23,51, "Cube023_3"]],
-//       [[2,52, "Cube002_1",2,52,"Cube002_1"], [11,53, "Cube011_2",11,53, "Cube011_2"], [20,54, "Cube020_3",20,54,"Cube020_3"]],
-//     ],
-// ];
-
 
 let rubiksCubeMatrixWithIdentifiers = [
     //imitialcubeno,initialplaneno,initialPlanename,newcubeno,newcubeplane,newplanename
@@ -152,7 +84,6 @@ let rubiksCubeMatrixWithIdentifiers = [
 
 export const useMouseHandlers = () => {
   const [downnew, setDownNew] = useState(null);
-  const [downnewCube, setDownNewCube] = useState(null);
   const [setrot, setSetrot] = useState(null); 
   const [xyzdirection, setxyzdirection] = useState(null); 
   const [direction, setdirection] = useState(null); 
