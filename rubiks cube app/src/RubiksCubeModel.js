@@ -14,6 +14,7 @@ const RubiksCubeModel = ({
   xyzdirection,
   direction,
   manuallyTriggerPointerEventsRef,
+  buttonClicked
 }) => {
   const cubeRefs = useRef([]);
   const orbitRef = useRef();
@@ -103,6 +104,7 @@ const RubiksCubeModel = ({
 
 
   const handlePointerDown = (event) => {
+    if (!buttonClicked) return;
     const clickedPlane = groupRef.current.children[0].children.find(
       (child) => child === event.object
     );
@@ -116,6 +118,7 @@ const RubiksCubeModel = ({
   };
 
   const handlePointerUp = async (event) => {
+    if (!buttonClicked) return;
     if (checkup == null) {
       const clickedPlane = groupRef.current.children[0].children.find(
         (child) => child === event.object

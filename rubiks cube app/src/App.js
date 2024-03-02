@@ -119,6 +119,7 @@ const RubiksCube = () => {
               direction={direction}
               manuallyTriggerPointerEventsRef={manuallyTriggerPointerEventsRef}
               finish={finish}
+              buttonClicked={buttonClicked}
             />
           ))}
         </Suspense>
