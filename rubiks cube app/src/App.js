@@ -5,10 +5,9 @@ import RubiksCubeModel from "./RubiksCubeModel";
 import "./App.css";
 import { useLoader } from "react-three-fiber";
 import { useMouseHandlers } from "./mouseEventHandlers";
-import Rubic from "./rubikcube.gltf"
 
 const RubiksCube = () => {
-  const { scene } = useLoader(GLTFLoader, Rubic);
+  const { scene } = useLoader(GLTFLoader, "/rubikcube.glb");
   const manuallyTriggerPointerEventsRef = useRef();
   const [displayText, setDisplayText] = useState(
     "Wait... Please stay in this window"
