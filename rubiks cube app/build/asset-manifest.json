@@ -1,12 +1,13 @@
 {
   "files": {
     "main.css": "/Rubic-Cube-Game/static/css/main.8dc11f25.css",
-    "main.js": "/Rubic-Cube-Game/static/js/main.8deea38a.js",
+    "main.js": "/Rubic-Cube-Game/static/js/main.75e51a8b.js",
     "static/js/27.aec4de7e.chunk.js": "/Rubic-Cube-Game/static/js/27.aec4de7e.chunk.js",
+    "static/media/rubikcube.gltf": "/Rubic-Cube-Game/static/media/rubikcube.0f71f2dd8f9919009886.gltf",
     "index.html": "/Rubic-Cube-Game/index.html"
   },
   "entrypoints": [
     "static/css/main.8dc11f25.css",
-    "static/js/main.8deea38a.js"
+    "static/js/main.75e51a8b.js"
   ]
 }
