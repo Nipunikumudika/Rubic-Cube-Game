@@ -221,7 +221,7 @@ const RubiksCubeModel = ({
         ))}
       </group>
       <group></group>
-      <OrbitControls ref={orbitRef} enableZoom={false} rotateSpeed={0.05} />
+      <OrbitControls ref={orbitRef} enableZoom={false} enablePan={false} rotateSpeed={0.05} />
       {/* <axesHelper args={[5]} /> */}
     </>
   );
