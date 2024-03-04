@@ -66,10 +66,13 @@ const RubiksCube = () => {
   }, [displayText]);
 
   useEffect(() => {
-    console.log("finish" + finish);
-    if (finish === 1) {
-      finishNavigate();
+    if (displayText === "Go Ahead to Solve..."){
+      console.log("finish" + finish);
+      if (finish === 1) {
+        finishNavigate();
+      }
     }
+
   }, [finish]);
   
   const finishNavigate = async () => {

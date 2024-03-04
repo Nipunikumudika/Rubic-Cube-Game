@@ -93,7 +93,7 @@ const RubiksCubeModel = ({
       mouseDownPlane(setcubePlane[randomInteger1][2]);
       onDragChange(false);
       mouseUpPlane(setcubePlane[randomInteger2][2]);
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 50));
       onDragChange(true);
     }
   };

@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/Rubic-Cube-Game/static/css/main.8dc11f25.css",
-    "main.js": "/Rubic-Cube-Game/static/js/main.064c5f45.js",
+    "main.js": "/Rubic-Cube-Game/static/js/main.7ad70586.js",
     "static/js/27.aec4de7e.chunk.js": "/Rubic-Cube-Game/static/js/27.aec4de7e.chunk.js",
     "index.html": "/Rubic-Cube-Game/index.html"
   },
   "entrypoints": [
     "static/css/main.8dc11f25.css",
-    "static/js/main.064c5f45.js"
+    "static/js/main.7ad70586.js"
   ]
 }
