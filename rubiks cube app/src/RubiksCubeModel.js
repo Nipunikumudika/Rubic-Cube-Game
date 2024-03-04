@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef ,useState} from "react";
 import { OrbitControls } from "@react-three/drei";
 import { useFrame } from "react-three-fiber";
 import * as THREE from "three";
@@ -14,7 +14,8 @@ const RubiksCubeModel = ({
   xyzdirection,
   direction,
   manuallyTriggerPointerEventsRef,
-  buttonClicked
+  buttonClicked,
+  timerRunning
 }) => {
   const cubeRefs = useRef([]);
   const orbitRef = useRef();
@@ -92,10 +93,9 @@ const RubiksCubeModel = ({
       mouseDownPlane(setcubePlane[randomInteger1][2]);
       onDragChange(false);
       mouseUpPlane(setcubePlane[randomInteger2][2]);
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 10));
       onDragChange(true);
     }
-    console.log("go agead");
   };
 
   useEffect(() => {
@@ -185,11 +185,16 @@ const RubiksCubeModel = ({
   };
 
   const rotateOnAxis = async (axis, angle) => {
-    for (let i = 0; i < 15; i++) {
-      groupRef.current.children[0].rotateOnWorldAxis(axis, angle / 15);
-      await new Promise((resolve) => requestAnimationFrame(resolve));
-      await new Promise((resolve) => setTimeout(resolve, 1));
+    if(!timerRunning){
+      groupRef.current.children[0].rotateOnWorldAxis(axis, angle);
+    }else{
+      for (let i = 0; i < 15; i++) {
+        groupRef.current.children[0].rotateOnWorldAxis(axis, angle / 15);
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+        await new Promise((resolve) => setTimeout(resolve, 1));
+      }
     }
+    
   };
 
   useFrame(() => {

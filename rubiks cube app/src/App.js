@@ -7,12 +7,13 @@ import { useLoader } from "react-three-fiber";
 import { useMouseHandlers } from "./mouseEventHandlers";
 
 const RubiksCube = () => {
-  const { scene } = useLoader(GLTFLoader, "/rubikcube.glb");
+  const { scene } = useLoader(GLTFLoader, "/rubikcube.gltf");
   const manuallyTriggerPointerEventsRef = useRef();
   const [displayText, setDisplayText] = useState(
     "Wait... Please stay in this window"
   );
   const [timer, setTimer] = useState(0);
+  const [timerRunning, setTimerRunning] = useState(false);
   const [drag, setDrag] = useState(true);
   const [buttonClicked, setButtonClicked] = useState(false);
   const [timerIntervalId, setTimerIntervalId] = useState(null);
@@ -46,6 +47,7 @@ const RubiksCube = () => {
   };
 
   const startTimer = () => {
+    setTimerRunning(true);
     const startTime = performance.now();
     const intervalId = setInterval(() => {
       const elapsedSeconds = Math.floor((performance.now() - startTime) / 1000);
@@ -120,6 +122,7 @@ const RubiksCube = () => {
               manuallyTriggerPointerEventsRef={manuallyTriggerPointerEventsRef}
               finish={finish}
               buttonClicked={buttonClicked}
+              timerRunning={timerRunning}
             />
           ))}
         </Suspense>
